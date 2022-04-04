@@ -1,29 +1,41 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form">
+    <el-form class="login-form" :model="loginFrom" :rules="loginRules">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
-      <el-form-item>
-        <span class="svg-container">
-          <el-icon>
-            <Avatar />
-          </el-icon>
-        </span>
-        <el-input placeholder="username" name="username" type="text"></el-input>
-      </el-form-item>
-
-      <el-form-item>
+      <el-form-item prop="username">
         <span class="svg-container">
           <span class="svg-container">
-            <svg-icon icon="https://res.lgdsunday.club/user.svg"></svg-icon>
+            <svg-icon icon="user"></svg-icon>
           </span>
         </span>
-        <el-input placeholder="password" name="password"></el-input>
+        <el-input
+          placeholder="username"
+          name="username"
+          type="text"
+          v-model="loginFrom.username"
+        ></el-input>
+      </el-form-item>
+
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <span class="svg-container">
+            <svg-icon icon="password"></svg-icon>
+          </span>
+        </span>
+        <el-input
+          placeholder="password"
+          :type="passwordType"
+          name="password"
+          v-model="loginFrom.password"
+        ></el-input>
         <span class="show-pwd">
-          <el-icon>
-            <Avatar />
-          </el-icon>
+          <span class="svg-container" @click="onChangepwd">
+            <svg-icon
+              :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+            ></svg-icon>
+          </span>
         </span>
       </el-form-item>
 
@@ -35,9 +47,42 @@
 </template>
 
 <script setup>
-import { Avatar } from "@element-plus/icons";
-import SvgIcon from "@/components/SvgIcon/index.vue";
-import {} from "vue";
+import { ref } from "vue";
+import { validatePassword } from "./rules";
+const loginFrom = ref({
+  username: "supper-admin",
+  password: "123456",
+});
+
+//验证规则
+const loginRules = ref({
+  username: [
+    {
+      required: true,
+      trigger: "blur",
+      message: "用户名为必填项",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      trigger: "blur",
+      validator: validatePassword(),
+    },
+  ],
+});
+
+//处理密码文本显示
+const passwordType = ref("password");
+//template中绑定的方法直接申明即可
+const onChangepwd = () => {
+  //使用ref声明的数据在script中使用时 需要加value来获取具体的值,但是在template中使用的时候不需要加value
+  if (passwordType.value === "password") {
+    passwordType.value = "text";
+  } else {
+    passwordType.value = "password";
+  }
+};
 </script>
 <style lang="scss" scoped>
 $bg: #2b3a4b;
