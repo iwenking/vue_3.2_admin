@@ -1,6 +1,11 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" :model="loginFrom" :rules="loginRules">
+    <el-form
+      class="login-form"
+      ref="loginFormRef"
+      :model="loginFrom"
+      :rules="loginRules"
+    >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
@@ -39,7 +44,11 @@
         </span>
       </el-form-item>
 
-      <el-button type="primary" style="width: 100%; margin-bottom: 30px"
+      <el-button
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        :loading="loading"
+        @click="handlerLogin"
         >登录</el-button
       >
     </el-form>
@@ -49,6 +58,9 @@
 <script setup>
 import { ref } from "vue";
 import { validatePassword } from "./rules";
+import { useStore } from "vuex";
+import router from "@/router";
+
 const loginFrom = ref({
   username: "supper-admin",
   password: "123456",
@@ -82,6 +94,25 @@ const onChangepwd = () => {
   } else {
     passwordType.value = "password";
   }
+};
+//处理登录
+const loading = ref(false);
+const store = useStore();
+const loginFormRef = ref(null);
+const handlerLogin = () => {
+  loginFormRef.value.validate((vaild) => {
+    if (!vaild) return;
+    // loading.value = true;
+    // store
+    //   .dispatch("user/login", loginFrom.value)
+    //   .then(() => {
+    //     loading.value = false;
+    //   })
+    //   .catch((err) => {
+    //     loading.value = false;
+    //   });
+    router.push("/");
+  });
 };
 </script>
 <style lang="scss" scoped>

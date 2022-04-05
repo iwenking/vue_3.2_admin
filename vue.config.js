@@ -11,6 +11,14 @@ function resolve(dir) {
 }
 
 module.exports = {
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "https://api.imooc-admin.lgdsunday.club/",
+        changeOrigin: true,
+      },
+    },
+  },
   chainWebpack(config) {
     config.module.rule("svg").exclude.add(resolve("src/icons")).end();
     config.module
