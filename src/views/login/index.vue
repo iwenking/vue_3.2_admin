@@ -59,6 +59,7 @@
 import { ref } from "vue";
 import { validatePassword } from "./rules";
 import { useStore } from "vuex";
+import { setItem } from "@/utils/storage";
 import router from "@/router";
 
 const loginFrom = ref({
@@ -111,6 +112,7 @@ const handlerLogin = () => {
     //   .catch((err) => {
     //     loading.value = false;
     //   });
+    setItem("token", "Bearer d8c6ed7a-3fd4-46e4-a477-b20d1ce9cda0");
     router.push("/");
   });
 };

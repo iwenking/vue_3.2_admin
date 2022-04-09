@@ -3,7 +3,6 @@ const path = require("path");
 const { config } = require("process");
 module.exports = defineConfig({
   transpileDependencies: true,
-  lintOnSave: false,
 });
 
 function resolve(dir) {
@@ -11,6 +10,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  lintOnSave: false,
   devServer: {
     proxy: {
       "/api": {
